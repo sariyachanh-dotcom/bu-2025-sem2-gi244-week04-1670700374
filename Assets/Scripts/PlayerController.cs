@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public InputAction moveAction;
     public InputAction shootAction;
     public float xRange = 10;
+    public float shootdelay = 0.2f;
+    private float timer;
 
     public GameObject foodPrefab;
 
@@ -21,7 +23,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+
         var Hinput = moveAction.ReadValue<Vector2>().x;
         transform.Translate(Hinput * speed * Time.deltaTime * Vector3.right);
         if (transform.position.x < -10)
@@ -32,9 +38,10 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(10, transform.position.y, transform.position.z);
         }
-        if (shootAction.triggered)
+        if (shootAction.inProgress && timer <= 0) 
         {
             Instantiate(foodPrefab, transform.position, Quaternion.identity);
+            timer = shootdelay;
         } 
         
     }
