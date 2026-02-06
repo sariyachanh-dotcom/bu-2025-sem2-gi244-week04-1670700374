@@ -9,4 +9,5 @@ public class MoveForward : MonoBehaviour
     {
         transform.Translate(speed * Time.deltaTime * Vector3.forward);
     }
+
 }
